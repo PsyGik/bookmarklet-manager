@@ -2,6 +2,8 @@
 
 React based web app to convert a JavaScript snippet into a Bookmarklet
 
+![Screenshot](./demo/screenshot.png)
+
 # Local Development
 
 - Clone the repo
