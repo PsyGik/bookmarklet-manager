@@ -10,6 +10,7 @@ import { Checkbox } from './checkbox';
 const { minify } = require('terser');
 import { TERSER_CONFIG, SPECIAL_CHARACTERS } from './configs';
 import { Copier } from './copier';
+import { ForkMe } from './fork-me';
 
 const style = {
   fontFamily: '"Fira code", "Fira Mono", monospace'
@@ -67,6 +68,7 @@ export default function App() {
 
   return (
     <div className="App">
+      <ForkMe />
       <h1>Bookmarklet Generator</h1>
       <section>
         <Card>
