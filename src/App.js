@@ -12,6 +12,7 @@ import { TERSER_CONFIG, SPECIAL_CHARACTERS } from './configs';
 import { Copier } from './copier';
 import { ForkMe } from './fork-me';
 import { Tutorial } from './tutorial';
+import { Presets } from './presets';
 
 const style = {
   fontFamily: '"Fira code", "Fira Mono", monospace'
@@ -95,6 +96,9 @@ export default function App() {
                 onChecked={updateOption}
               />
             </Card.Body>
+            <Card.Footer className="text-muted">
+              <Presets setPreset={setCode} />
+            </Card.Footer>
           </Card>
         </section>
       </Col>
@@ -107,6 +111,7 @@ export default function App() {
                 <Alert variant="info">
                   Enter your JavaScript below and Click on Generate Bookmarklet.
                 </Alert>
+
                 <Editor
                   textareaClassName="code-container"
                   preClassName="code-container"
@@ -144,9 +149,11 @@ export default function App() {
                 <Copier code={generatedCode} />
               </Card.Footer>
               <Card.Footer className="text-muted">
-                <a variant="link" href={generatedCode}>
-                  Drag Me to your Bookmarks Bar
-                </a>
+                {generatedCode && (
+                  <a variant="link" href={generatedCode}>
+                    Click to test OR Drag to your Bookmarks Bar
+                  </a>
+                )}
               </Card.Footer>
             </Card>
           </section>

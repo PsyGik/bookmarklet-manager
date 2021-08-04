@@ -51,7 +51,7 @@ export const Tutorial = () => {
         </Accordion.Item>
       </Accordion>
       <Card.Footer className="text-muted">
-        <a href="https://support.mozilla.org/en-US/kb/bookmarklets-perform-common-web-page-tasks">
+        <a href="https://dhanrajsp.me/snippets/vandalize-the-web-with-bookmarklets">
           More Info
         </a>
       </Card.Footer>
