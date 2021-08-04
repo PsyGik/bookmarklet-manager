@@ -11,6 +11,7 @@ const { minify } = require('terser');
 import { TERSER_CONFIG, SPECIAL_CHARACTERS } from './configs';
 import { Copier } from './copier';
 import { ForkMe } from './fork-me';
+import { Tutorial } from './tutorial';
 
 const style = {
   fontFamily: '"Fira code", "Fira Mono", monospace'
@@ -67,89 +68,93 @@ export default function App() {
   }, [code, options.encode, options.iife, options.minify]);
 
   return (
-    <div className="App">
+    <Container fluid="md">
       <ForkMe />
-      <h1>Bookmarklet Generator</h1>
+      <h1 className="text-center title">Bookmarklet Generator</h1>
+      <Col>
+        <section>
+          <Card>
+            <Card.Header as="h5">Options:</Card.Header>
+            <Card.Body>
+              <Checkbox
+                label={`URL-encode reserved characters: [space], %, ", <, >, #, @, &, ?`}
+                type="encode"
+                checked={options.encode}
+                onChecked={updateOption}
+              />
+              <Checkbox
+                label="Isolate within an unnamed function (anonymizing function, IIFE, immediately-invoked function expression)."
+                type="iife"
+                checked={options.iife}
+                onChecked={updateOption}
+              />
+              <Checkbox
+                label="Minify using Terser"
+                type="minify"
+                checked={options.minify}
+                onChecked={updateOption}
+              />
+            </Card.Body>
+          </Card>
+        </section>
+      </Col>
+      <Row>
+        <Col lg={true}>
+          <section>
+            <Card>
+              <Card.Header as="h5">Input JavaScript:</Card.Header>
+              <Card.Body>
+                <Alert variant="info">
+                  Enter your JavaScript below and Click on Generate Bookmarklet.
+                </Alert>
+                <Editor
+                  textareaClassName="code-container"
+                  preClassName="code-container"
+                  value={code}
+                  onValueChange={(code) => setCode(code)}
+                  highlight={(code) => highlight(code, languages.js)}
+                  padding={10}
+                  style={style}
+                />
+              </Card.Body>
+              <Card.Footer className="text-muted">
+                <Button variant="primary" onClick={generate}>
+                  Generate Bookmarklet
+                </Button>
+              </Card.Footer>
+            </Card>
+          </section>
+        </Col>
+        <Col lg={true}>
+          <section>
+            <Card>
+              <Card.Header as="h5">Output Preview:</Card.Header>
+              <Card.Body>
+                <Editor
+                  textareaClassName="code-container code-preview"
+                  preClassName="code-container code-preview"
+                  value={generatedCode}
+                  readOnly={true}
+                  highlight={(code) => highlight(code, languages.js)}
+                  padding={10}
+                  style={style}
+                />
+              </Card.Body>
+              <Card.Footer className="text-muted">
+                <Copier code={generatedCode} />
+              </Card.Footer>
+              <Card.Footer className="text-muted">
+                <a variant="link" href={generatedCode}>
+                  Drag Me to your Bookmarks Bar
+                </a>
+              </Card.Footer>
+            </Card>
+          </section>
+        </Col>
+      </Row>
       <section>
-        <Card>
-          <Card.Header as="h5">Options:</Card.Header>
-          <Card.Body>
-            <Checkbox
-              label={`URL-encode reserved characters: [space], %, ", <, >, #, @, &, ?`}
-              type="encode"
-              checked={options.encode}
-              onChecked={updateOption}
-            />
-            <Checkbox
-              label="Isolate within an unnamed function (anonymizing function, IIFE, immediately-invoked function expression)."
-              type="iife"
-              checked={options.iife}
-              onChecked={updateOption}
-            />
-            <Checkbox
-              label="Minify using Terser"
-              type="minify"
-              checked={options.minify}
-              onChecked={updateOption}
-            />
-          </Card.Body>
-        </Card>
+        <Tutorial />
       </section>
-      <section>
-        <Container fluid>
-          <Row>
-            <Col lg={true}>
-              <Card>
-                <Card.Header as="h5">Input JavaScript:</Card.Header>
-                <Card.Body>
-                  <Alert variant="info">
-                    Enter your JavaScript below and Click on Generate
-                    Bookmarklet.
-                  </Alert>
-                  <Editor
-                    textareaClassName="code-container"
-                    preClassName="code-container"
-                    value={code}
-                    onValueChange={(code) => setCode(code)}
-                    highlight={(code) => highlight(code, languages.js)}
-                    padding={10}
-                    style={style}
-                  />
-                </Card.Body>
-                <Card.Footer className="text-muted">
-                  <Button variant="primary" onClick={generate}>
-                    Generate Bookmarklet
-                  </Button>
-                </Card.Footer>
-              </Card>
-            </Col>
-            <Col lg={true}>
-              <Card>
-                <Card.Header as="h5">Output Preview:</Card.Header>
-                <Card.Body>
-                  <Editor
-                    textareaClassName="code-container code-preview"
-                    preClassName="code-container code-preview"
-                    value={generatedCode}
-                    readOnly={true}
-                    highlight={(code) => highlight(code, languages.js)}
-                    padding={10}
-                    style={style}
-                  />
-                </Card.Body>
-                <Card.Footer className="text-muted">
-                  <Copier code={generatedCode} />
-                </Card.Footer>
-                <Card.Footer className="text-muted">
-                  <a variant="link" href={generatedCode}>
-                    Drag Me to your Bookmarks Bar
-                  </a>
-                </Card.Footer>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-    </div>
+    </Container>
   );
 }
